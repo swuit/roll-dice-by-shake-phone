@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>random</title>
+        <script>
+        !function(a,b){function c(){var b=f.getBoundingClientRect().width;b/i>540&&(b=540*i);var c=b/10;f.style.fontSize=c+"px",k.rem=a.rem=c}var d,e=a.document,f=e.documentElement,g=e.querySelector('meta[name="viewport"]'),h=e.querySelector('meta[name="flexible"]'),i=0,j=0,k=b.flexible||(b.flexible={});if(g){console.warn("将根据已有的meta标签来设置缩放比例");var l=g.getAttribute("content").match(/initial\-scale=([\d\.]+)/);l&&(j=parseFloat(l[1]),i=parseInt(1/j))}else if(h){var m=h.getAttribute("content");if(m){var n=m.match(/initial\-dpr=([\d\.]+)/),o=m.match(/maximum\-dpr=([\d\.]+)/);n&&(i=parseFloat(n[1]),j=parseFloat((1/i).toFixed(2))),o&&(i=parseFloat(o[1]),j=parseFloat((1/i).toFixed(2)))}}if(!i&&!j){var p=(a.navigator.appVersion.match(/android/gi),a.navigator.appVersion.match(/iphone/gi)),q=a.devicePixelRatio;i=p?q>=3&&(!i||i>=3)?3:q>=2&&(!i||i>=2)?2:1:1,j=1/i}if(f.setAttribute("data-dpr",i),!g)if(g=e.createElement("meta"),g.setAttribute("name","viewport"),g.setAttribute("content","initial-scale="+j+", maximum-scale="+j+", minimum-scale="+j+", user-scalable=no"),f.firstElementChild)f.firstElementChild.appendChild(g);else{var r=e.createElement("div");r.appendChild(g),e.write(r.innerHTML)}a.addEventListener("resize",function(){clearTimeout(d),d=setTimeout(c,300)},!1),a.addEventListener("pageshow",function(a){a.persisted&&(clearTimeout(d),d=setTimeout(c,300))},!1),"complete"===e.readyState?e.body.style.fontSize=12*i+"px":e.addEventListener("DOMContentLoaded",function(){e.body.style.fontSize=12*i+"px"},!1),c(),k.dpr=a.dpr=i,k.refreshRem=c,k.rem2px=function(a){var b=parseFloat(a)*this.rem;return"string"==typeof a&&a.match(/rem$/)&&(b+="px"),b},k.px2rem=function(a){var b=parseFloat(a)/this.rem;return"string"==typeof a&&a.match(/px$/)&&(b+="rem"),b}}(window,window.lib||(window.lib={}));
+        </script>
+        <style media="screen">
+            *{margin: 0; padding: 0;}
+            body{
+                font-family: "PingFang SC", Verdana, "Helvetica Neue", "Microsoft Yahei", "Hiragino Sans GB", "Microsoft Sans Serif", "WenQuanYi Micro Hei", sans-serif;
+                font-size: 1rem;
+                color: #555;
+                padding-top: 2rem;
+            }
+            .row{
+                font-size: 1rem;
+                text-align: center;
+            }
+            .row label{
+                vertical-align: middle;
+            }
+            .row input{
+                vertical-align: middle;
+                font-size: 1rem;
+                color: #555;
+                height: 1rem;
+                width: 50%;
+                border: 1px solid #555;
+            }
+            .btn{
+                position: relative;
+                width: 5rem;
+                height: 5rem;
+                border: 4px solid #555;
+                border-radius: 50%;
+                font-size: 1rem;
+                margin: 1rem auto;
+            }
+            .btn span{
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%,-50%);
+            }
+        </style>
+    </head>
+    <body>
+        <div class="row start">
+            <label>起始</label>
+            <input type="number" id="start" />
+        </div>
+        <div class="row end">
+            <label>终止</label>
+            <input type="number" id="end" />
+        </div>
+        <div class="row res">
+            <label>结果</label>
+            <input type="number" id="res" readonly="readonly" />
+        </div>
+        <div class="btn">
+            <span id="toggle">开始</span>
+        </div>
+        <script>
+        // 输入数字  点击按钮产生随机数
+        var $btn = document.getElementById('toggle');
+        var $start = document.getElementById('start');
+        var $end = document.getElementById('end');
+        var $res = document.getElementById('res');
+        var endNum;
+
+        toggle.addEventListener('touchstart', function(){
+            if($end.value){
+                $res.value = random($end.value,$start.value);
+            }else {
+                alert('请输入终止值');
+            }
+        });
+
+        function random(end, start){
+            if (start) {
+                return Math.ceil(start-1+(end-start+1)*Math.random());
+            }else {
+                return Math.ceil(end*Math.random());
+            }
+        }
+
+        // 摇一摇
+        var SHAKE_THRESHOLD = 3000;
+        var last_update = 0;
+        var x = y = z = last_x = last_y = last_z = 0;
+        function init() {
+            if (window.DeviceMotionEvent) {
+                window.addEventListener('devicemotion', deviceMotionHandler, false);
+            } else {
+                alert('not support mobile event');
+            }
+        }
+        function deviceMotionHandler(eventData) {
+            var acceleration = eventData.accelerationIncludingGravity;
+            var curTime = new Date().getTime();
+            if ((curTime - last_update) > 100) {
+                var diffTime = curTime - last_update;
+                last_update = curTime;
+                x = acceleration.x;
+                y = acceleration.y;
+                z = acceleration.z;
+                var speed = Math.abs(x + y + z - last_x - last_y - last_z) / diffTime * 10000;
+                if (speed > SHAKE_THRESHOLD) {
+                    alert("摇动了");
+                }
+                last_x = x;
+                last_y = y;
+                last_z = z;
+            }
+        }
+        init();
+        </script>
+    </body>
+</html>
