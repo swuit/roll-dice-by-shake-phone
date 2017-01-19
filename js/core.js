@@ -5,7 +5,7 @@ function rollDice(size) {
     return Math.ceil(Math.random()*size);
 }
 
-function rollManyDices(number, size) {
+function rollMultiDices(number, size) {
     if (number <= 0) {
         return false;
     }
@@ -13,7 +13,7 @@ function rollManyDices(number, size) {
     var result = [];
   
     while(number-- > 0) {
-        result.push(roleDice(size));
+        result.push(rollDice(size));
     }
   
     return result;
