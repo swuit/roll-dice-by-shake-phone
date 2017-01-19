@@ -62,6 +62,7 @@
         <div class="btn">
             <span id="toggle">开始</span>
         </div>
+        <script src="/js/core.js"></script>
         <script>
         // 输入数字  点击按钮产生随机数
         var $btn = document.getElementById('toggle');
@@ -108,7 +109,7 @@
                 z = acceleration.z;
                 var speed = Math.abs(x + y + z - last_x - last_y - last_z) / diffTime * 10000;
                 if (speed > SHAKE_THRESHOLD) {
-                    alert("摇动了");
+                    $res.val(rollMulitDices(2, 12));
                 }
                 last_x = x;
                 last_y = y;
