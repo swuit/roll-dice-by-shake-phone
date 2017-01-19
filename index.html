@@ -109,7 +109,7 @@
                 z = acceleration.z;
                 var speed = Math.abs(x + y + z - last_x - last_y - last_z) / diffTime * 10000;
                 if (speed > SHAKE_THRESHOLD) {
-                    $res.val(rollMulitDices(2, 12));
+                    $res.value = rollMulitDices(2, 12);
                 }
                 last_x = x;
                 last_y = y;
